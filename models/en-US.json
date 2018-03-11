@@ -21,7 +21,7 @@
                     "slots": [
                         {
                             "name": "postcode",
-                            "type": "AMAZON.US_FIRST_NAME"
+                            "type": "AMAZON.VideoGame"
                         }
                     ],
                     "samples":[
