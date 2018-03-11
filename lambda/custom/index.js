@@ -77,7 +77,9 @@ var handlers = {
                   const response = JSON.parse(d);
 
                   if (response) {
-                      const answer = `First property is at address ${response[0]["displayable_address"]}. The price per month is ${response[0]["rental_prices"]["per_month"]}. This property is ${response[0]["furnished_state"].replace("_"," ")}.`
+                      const answer = `First property is at address ${response[0]["displayable_address"]}. The price per month is ${response[0]["rental_prices"]["per_month"]}. This property is ${response[0]["furnished_state"].replace("_"," ")}.
+                      Second property is at address ${response[1]["displayable_address"]}. The price per month is ${response[1]["rental_prices"]["per_month"]}. This property is ${response[1]["furnished_state"].replace("_"," ")}.
+                      Third property is at address ${response[2]["displayable_address"]}. The price per month is ${response[2]["rental_prices"]["per_month"]}. This property is ${response[2]["furnished_state"].replace("_"," ")}.`
                       this.response.speak(answer).cardRenderer(response[0]["displayable_address"], response[0]["description"], {smallImageUrl: response[0]["image_150_113_url"]} );
                       this.emit(':responseReady');
                   } else {
