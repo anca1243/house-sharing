@@ -33,6 +33,7 @@ const criterias = {
 }
 
 let lastCheckedPostcode;
+let maxPrice;
 let cardMap = [];
 
 var handlers = {
@@ -46,7 +47,15 @@ var handlers = {
         this.emit('SayHelloName');
     },
     'MoveIntent': function () {
-         this.response.speak('Oi mate! Here is a list of criteria you can choose from: Income, Employment, Education, Health, Crime, Services, Living Environment. Please pick two:').listen('Pick two ');
+         const city = this.event.request.intent.slots.city.value;
+         let response = "";
+         console.log(city)
+         if(city !== 'Manchester') {
+            response += 'No no no no, mate - you want Manchester. Trust me! '
+         } else {
+            response += 'Oi mate! '
+         }
+         this.response.speak(response + 'Here is a list of criteria you can choose from: Income, Employment, Education, Health, Crime, Services, Living Environment. Please pick two:').listen('Pick two ');
          this.emit(':responseReady');
     },
 
@@ -79,16 +88,21 @@ var handlers = {
         const answer = this.event.request.intent.slots.yesornoanswer.value;
 
         if (answer === "yes"){
-            this.emit('DisplayListings');
+            this.response.speak('What is the maximum price you are willing to pay per week?').listen('please');
+            this.emit(':responseReady');
         }
         else{
             this.emit('AMAZON.StopIntent');
         }
      },
+    'PriceIntent': function () {
+     maxPrice = this.event.request.intent.slots.propertymaxprice.value;
+     this.emit('DisplayListings');
+    },
      'DisplayListings': function () {
          var options = {
                       host: '6a7e50f9.ngrok.io',
-                      path: '/listings?postcode=' + encodeURIComponent(lastCheckedPostcode),
+                      path: '/listings?postcode=' + encodeURIComponent(lastCheckedPostcode) + '&maximum_price=' + encodeURIComponent(maxPrice),
                       method: 'GET'
          };
 

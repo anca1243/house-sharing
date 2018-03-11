@@ -102,6 +102,21 @@
 
                         "the {propertydetails} one"
                     ]
+                },
+                {
+                    "name":"PriceIntent",
+                    "slots":[
+                        {
+                            "name":"propertymaxprice",
+                            "type":"AMAZON.VideoGame"
+                        }
+                    ],
+                    "samples":[
+
+                        "{propertymaxprice} pounds",
+                        "{propertymaxprice} per month",
+                        "I am willing to pay {propertymaxprice}"
+                    ]
                 }
             ]
         }
