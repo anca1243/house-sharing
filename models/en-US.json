@@ -18,13 +18,16 @@
                 },
                 {
                     "name":"HelloWorldIntent",
-                    "slots":[
-
+                    "slots": [
+                        {
+                            "name": "postcode",
+                            "type": "AMAZON.US_FIRST_NAME"
+                        }
                     ],
                     "samples":[
-                        "hello",
-                        "say hello",
-                        "say hello world"
+                        "hello {postcode}",
+                        "say hello {postcode}",
+                        "say hello world {postcode}"
                     ]
                 },
                 {
@@ -32,13 +35,58 @@
                     "slots":[
                         {
                             "name":"name",
-                            "type":"AMAZON.US_FIRST_NAME"
+                            "type":"AMAZON.VideoGame"
                         }
                     ],
                     "samples":[
-                        "my name is {name}",
-                        "i am {name}",
-                        "you can call me {name}"
+                        "I am interested in {name}",
+                        "I am curious about {name}",
+                        "I am thinking about moving to {name}"
+                    ]
+                },
+                {
+                    "name":"MoveIntent",
+                    "slots":[
+                        {
+                            "name":"city",
+                            "type":"AMAZON.VideoGame"
+                        }
+                    ],
+                    "samples":[
+                        "I want to move to {city}",
+                        "I am planning to move to {city}"
+
+                    ]
+                },
+                {
+                    "name":"CriteriaIntent",
+                    "slots":[
+                        {
+                            "name":"criteriaone",
+                            "type":"AMAZON.VideoGame"
+                        },
+                        {
+                            "name":"criteriatwo",
+                            "type":"AMAZON.VideoGame"
+                        }
+                    ],
+                    "samples":[
+                        "I am interested in {criteriaone} and {criteriatwo}",
+                        "I care about {criteriaone} and {criteriatwo}",
+                        "{criteriaone} and {criteriatwo}"
+
+                    ]
+                },
+                {
+                    "name":"ListingsIntent",
+                    "slots":[
+                        {
+                            "name":"yesornoanswer",
+                            "type":"AMAZON.VideoGame"
+                        }
+                    ],
+                    "samples":[
+                        "{yesornoanswer}"
                     ]
                 }
             ]
