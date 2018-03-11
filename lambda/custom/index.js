@@ -33,6 +33,7 @@ const criterias = {
 }
 
 let lastCheckedPostcode;
+let cardMap = [];
 
 var handlers = {
     'LaunchRequest': function () {
@@ -48,15 +49,36 @@ var handlers = {
          this.response.speak('Oi mate! Here is a list of criteria you can choose from: Income, Employment, Education, Health, Crime, Services, Living Environment. Please pick two:').listen('Pick two ');
          this.emit(':responseReady');
     },
+
+    'DisplayIntent': function () {
+         const answer = this.event.request.intent.slots.propertydetails.value;
+//         this.response.speak(answer)
+//         this.emit(':responseReady')
+         if (answer === "first"){
+
+                     this.response.speak('You can see more details about the chosen listing in your Alexa App.').cardRenderer(cardMap[0].title, cardMap[0].content, {largeImageUrl: cardMap[0].image})
+                     this.emit(':responseReady')
+                     }
+                     else if (answer === "second"){
+
+                         this.response.speak('You can see more details about the chosen listing in your Alexa App.').cardRenderer(cardMap[1].title, cardMap[1].content, {largeImageUrl: cardMap[1].image})
+                         this.emit(':responseReady')
+                     }
+                     else if (answer === "third"){
+
+                         this.response.speak('You can see more details about the chosen listing in your Alexa App.').cardRenderer(cardMap[2].title, cardMap[2].content, {largeImageUrl: cardMap[2].image})
+                         this.emit(':responseReady')
+                     }
+    },
      'ListingsIntent': function () {
         const answer = this.event.request.intent.slots.yesornoanswer.value;
+
         if (answer === "yes"){
             this.emit('DisplayListings');
         }
         else{
             this.emit('AMAZON.StopIntent');
         }
-
      },
      'DisplayListings': function () {
          var options = {
@@ -81,7 +103,8 @@ var handlers = {
                       for(var i=0;i<3;i++){
                           let ans = "Property "+(i+1);
                           if(response[i]["displayable_address"]){
-                               ans += " is at address "+ response[0]["displayable_address"] + ". ";
+                               ans += " is at address "+ response[i]["displayable_address"] + ". ";
+
                           }
 
                           if(response[i]["rental_prices"]["per_month"]){
@@ -91,12 +114,16 @@ var handlers = {
                           if(response[i]["furnished_state"]) {
                             ans += "This property is " + response[i]["furnished_state"].replace("_"," ") + ". ";
                           }
+                          cardMap.push({title: response[i]["displayable_address"], content: response[i]["short_description"], image: response[i]["image_150_113_url"]})
+
 
                           answer += ans;
 
                       }
 
-                      this.response.speak(answer).cardRenderer(response[0]["displayable_address"], response[0]["description"], {smallImageUrl: response[0]["image_150_113_url"]} );
+                      answer += "Which one would you like to save?"
+
+                      this.response.speak(answer).listen('Insert one')
                       this.emit(':responseReady');
                   } else {
                       this.response.speak('NO DATA CAME BACK');

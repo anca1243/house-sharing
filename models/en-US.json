@@ -86,7 +86,21 @@
                         }
                     ],
                     "samples":[
-                        "{yesornoanswer}"
+                        "{yesornoanswer}",
+                        "the {yesornoanswer} one"
+                    ]
+                },
+                {
+                    "name":"DisplayIntent",
+                    "slots":[
+                        {
+                            "name":"propertydetails",
+                            "type":"AMAZON.VideoGame"
+                        }
+                    ],
+                    "samples":[
+
+                        "the {propertydetails} one"
                     ]
                 }
             ]
