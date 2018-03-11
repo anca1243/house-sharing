@@ -86,8 +86,8 @@
                         }
                     ],
                     "samples":[
-                        "{yesornoanswer}",
-                        "the {yesornoanswer} one"
+                        "{yesornoanswer}"
+
                     ]
                 },
                 {

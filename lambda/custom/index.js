@@ -54,21 +54,26 @@ var handlers = {
          const answer = this.event.request.intent.slots.propertydetails.value;
 //         this.response.speak(answer)
 //         this.emit(':responseReady')
-         if (answer === "first"){
+         console.log(cardMap)
+         console.log(answer)
+         if (answer === "1st"){
+         console.log("reached first")
+         this.response.speak('You can see more details about the chosen listing in your Alexa App.').cardRenderer(cardMap[0].title, cardMap[0].content, {largeImageUrl: cardMap[0].image})
+         this.emit(':responseReady')
+         }
+         else if (answer === "second"){
 
-                     this.response.speak('You can see more details about the chosen listing in your Alexa App.').cardRenderer(cardMap[0].title, cardMap[0].content, {largeImageUrl: cardMap[0].image})
-                     this.emit(':responseReady')
-                     }
-                     else if (answer === "second"){
+             this.response.speak('You can see more details about the chosen listing in your Alexa App.').cardRenderer(cardMap[1].title, cardMap[1].content, {largeImageUrl: cardMap[1].image})
+             this.emit(':responseReady')
+         }
+         else if (answer === "3rd"){
 
-                         this.response.speak('You can see more details about the chosen listing in your Alexa App.').cardRenderer(cardMap[1].title, cardMap[1].content, {largeImageUrl: cardMap[1].image})
-                         this.emit(':responseReady')
-                     }
-                     else if (answer === "third"){
-
-                         this.response.speak('You can see more details about the chosen listing in your Alexa App.').cardRenderer(cardMap[2].title, cardMap[2].content, {largeImageUrl: cardMap[2].image})
-                         this.emit(':responseReady')
-                     }
+             this.response.speak('You can see more details about the chosen listing in your Alexa App.').cardRenderer(cardMap[2].title, cardMap[2].content, {largeImageUrl: cardMap[2].image})
+             this.emit(':responseReady')
+         }
+         else {
+            this.emit('AMAZON.StopIntent');
+         }
     },
      'ListingsIntent': function () {
         const answer = this.event.request.intent.slots.yesornoanswer.value;
@@ -114,7 +119,7 @@ var handlers = {
                           if(response[i]["furnished_state"]) {
                             ans += "This property is " + response[i]["furnished_state"].replace("_"," ") + ". ";
                           }
-                          cardMap.push({title: response[i]["displayable_address"], content: response[i]["short_description"], image: response[i]["image_150_113_url"]})
+                          cardMap.push({title: response[i]["displayable_address"], content: response[i]["details_url"], image: response[i]["image_150_113_url"]})
 
 
                           answer += ans;
