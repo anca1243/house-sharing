@@ -208,7 +208,7 @@ var handlers = {
 
     },
     'SayHello': function () {
-        this.response.speak('Hello World!')
+        this.response.speak('What can I help you with?')
                      .listen('What can I help you with?');
         this.emit(':responseReady');
     },

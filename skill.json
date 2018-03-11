@@ -5,11 +5,10 @@
         "en-US": {
           "summary": "Sample Short Description",
           "examplePhrases": [
-            "Alexa open hello world",
-            "Alexa tell hello world I am Jeff",
-            "Alexa tell hello world my name is Peter"
+            "Alexa open relocation mate",
+            "I want to move to Manchester"
           ],
-          "name": "newskill",
+          "name": "RelocationMate",
           "description": "Sample Full Description"
         }
       },
