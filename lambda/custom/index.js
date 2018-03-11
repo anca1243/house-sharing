@@ -60,7 +60,7 @@ var handlers = {
      },
      'DisplayListings': function () {
          var options = {
-                      host: '6db87dbc.ngrok.io',
+                      host: '6a7e50f9.ngrok.io',
                       path: '/listings?postcode=' + encodeURIComponent(lastCheckedPostcode),
                       method: 'GET'
          };
@@ -77,9 +77,25 @@ var handlers = {
                   const response = JSON.parse(d);
 
                   if (response) {
-                      const answer = `First property is at address ${response[0]["displayable_address"]}. The price per month is ${response[0]["rental_prices"]["per_month"]}. This property is ${response[0]["furnished_state"].replace("_"," ")}.
-                      Second property is at address ${response[1]["displayable_address"]}. The price per month is ${response[1]["rental_prices"]["per_month"]}. This property is ${response[1]["furnished_state"].replace("_"," ")}.
-                      Third property is at address ${response[2]["displayable_address"]}. The price per month is ${response[2]["rental_prices"]["per_month"]}. This property is ${response[2]["furnished_state"].replace("_"," ")}.`
+                      let answer = "";
+                      for(var i=0;i<3;i++){
+                          let ans = "Property "+(i+1);
+                          if(response[i]["displayable_address"]){
+                               ans += " is at address "+ response[0]["displayable_address"] + ". ";
+                          }
+
+                          if(response[i]["rental_prices"]["per_month"]){
+                                ans += "The price per month is " + response[i]["rental_prices"]["per_month"] + ". ";
+                           }
+
+                          if(response[i]["furnished_state"]) {
+                            ans += "This property is " + response[i]["furnished_state"].replace("_"," ") + ". ";
+                          }
+
+                          answer += ans;
+
+                      }
+
                       this.response.speak(answer).cardRenderer(response[0]["displayable_address"], response[0]["description"], {smallImageUrl: response[0]["image_150_113_url"]} );
                       this.emit(':responseReady');
                   } else {
@@ -105,7 +121,7 @@ var handlers = {
 
 
         var options = {
-                     host: 'b00a7cbf.ngrok.io',
+                     host: 'd9f0b7e4.ngrok.io',
                      path: '/recommendations?comparisons[]=' + encodeURIComponent(criteria1 + " more " + criteria2),
                      method: 'GET'
         };
@@ -154,7 +170,7 @@ var handlers = {
          const postcode = this.event.request.intent.slots.name.value;
 
          var options = {
-             host: 'b00a7cbf.ngrok.io',
+             host: 'd9f0b7e4.ngrok.io',
              path: '/get-postcode-data?postcode=' + encodeURIComponent(postcode),
              method: 'GET'
          };
