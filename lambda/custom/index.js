@@ -15,13 +15,24 @@ exports.handler = function(event, context) {
 
 const criterias = {
     "income": "a",
+    "Income": "a",
     "employment": "b",
+    "Employment": "b",
     "education" : "c",
+    "Education" : "c",
     "health" : "d",
+    "Health" : "d",
     "crime" : "e",
+    "Crime" : "e",
     "services" : "f",
-    "living environment" : "g"
+    "Services" : "f",
+    "living environment" : "g",
+    "Living environment" : "g",
+    "living Environment" : "g",
+    "Living Environment" : "g"
 }
+
+let lastCheckedPostcode;
 
 var handlers = {
     'LaunchRequest': function () {
@@ -34,24 +45,24 @@ var handlers = {
         this.emit('SayHelloName');
     },
     'MoveIntent': function () {
-        this.response.speak('Oi mate! Here is criteria:').listen('Pick two ');
-        this.emit(':responseReady');
+         this.response.speak('Oi mate! Here is a list of criteria you can choose from: Income, Employment, Education, Health, Crime, Services, Living Environment. Please pick two:').listen('Pick two ');
+         this.emit(':responseReady');
     },
      'ListingsIntent': function () {
         const answer = this.event.request.intent.slots.yesornoanswer.value;
         if (answer === "yes"){
-            this.response.speak('Teapa n ai mai luat teapa');
+            this.response.speak(lastCheckedPostcode);
             this.emit(':responseReady');
         }
         else{
             this.emit('AMAZON.StopIntent');
         }
-         this.response.speak('Oi mate! Here is criteria:').listen('Pick two ');
-         this.emit(':responseReady');
+
      },
     'CriteriaIntent': function () {
         const criteria1 = criterias[this.event.request.intent.slots.criteriaone.value];
         const criteria2 = criterias[this.event.request.intent.slots.criteriatwo.value];
+
 
         var options = {
                      host: 'b00a7cbf.ngrok.io',
@@ -71,9 +82,10 @@ var handlers = {
              const response = JSON.parse(d);
 
              if (response) {
+                lastCheckedPostcode = response['Postcode'].substring(0, response['Postcode'].length-2)
                  const answer = `Given your criteria, the first recommended area is ${response['Postcode']} which has a total number of residents of ${response['Total # of Residents']}.
                  Second recommended area is ${response['Postcode2']} with a total number of residents of ${response['Total # of Residents2']}.
-                 Would you like to see the most popular listings for ${response['Postcode'].substring(0, response['Postcode'].length-2)}?`
+                 Would you like to see the most popular listings for ${lastCheckedPostcode}?`
                  this.response.speak(answer).listen('Yes or No');
                  this.emit(':responseReady');
              } else {
