@@ -51,12 +51,50 @@ var handlers = {
      'ListingsIntent': function () {
         const answer = this.event.request.intent.slots.yesornoanswer.value;
         if (answer === "yes"){
-            this.response.speak(lastCheckedPostcode);
-            this.emit(':responseReady');
+            this.emit('DisplayListings');
         }
         else{
             this.emit('AMAZON.StopIntent');
         }
+
+     },
+     'DisplayListings': function () {
+         var options = {
+                      host: '6db87dbc.ngrok.io',
+                      path: '/listings?postcode=' + encodeURIComponent(lastCheckedPostcode),
+                      method: 'GET'
+         };
+
+         const req = https.request(options, (res) => {
+
+              var d = '';
+
+              res.on('data', function (chunk) {
+                d += chunk;
+              });
+
+              res.on('end', () => {
+                  const response = JSON.parse(d);
+
+                  if (response) {
+                      const answer = `First property is at address ${response[0]["displayable_address"]}. The price per month is ${response[0]["rental_prices"]["per_month"]}. This property is ${response[0]["furnished_state"].replace("_"," ")}.`
+                      this.response.speak(answer).cardRenderer(response[0]["displayable_address"], response[0]["description"], {smallImageUrl: response[0]["image_150_113_url"]} );
+                      this.emit(':responseReady');
+                  } else {
+                      this.response.speak('NO DATA CAME BACK');
+                      this.emit(':responseReady');
+                  }
+              });
+
+
+              res.on('error', (e) => {
+                this.response.speak('ERROR CEFULEE!');
+                this.emit(':responseReady');
+              });
+          });
+
+          req.end();
+
 
      },
     'CriteriaIntent': function () {
